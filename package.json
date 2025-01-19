@@ -1,0 +1,25 @@
+{
+  "name": "frozen-meal-manager",
+  "private": true,
+  "engines": {
+    "npm": "please-use-bun",
+    "yarn": "please-use-bun",
+    "pnpm": "please-use-bun",
+    "bun": ">=1"
+  },
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "format": "biome format --write .",
+    "format:check": "biome format ."
+  },
+  "dependencies": {
+    "@biomejs/biome": "^1.7.2",
+    "@types/bun": "latest",
+    "tsx": "^4.15.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "trustedDependencies": ["@biomejs/biome", "esbuild", "sharp"]
+}
