@@ -1,9 +1,16 @@
-import { InventoryList } from './components/partials/InventoryList'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { memo } from 'react'
+import { Button } from "@/components/ui/button";
+import { currentUser } from "@clerk/nextjs/server";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { InventoryList } from "./components/partials/InventoryList";
 
-const HomePage = memo(() => {
+export default async function Home() {
+  const user = await currentUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -14,7 +21,5 @@ const HomePage = memo(() => {
       </div>
       <InventoryList />
     </div>
-  )
-})
-
-export default HomePage;
+  );
+}
