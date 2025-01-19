@@ -2,6 +2,7 @@ import { db } from "@/db/drizzle";
 import { users } from "@/db/schema";
 import type { WebhookEvent } from "@clerk/nextjs/server";
 import { createId } from "@paralleldrive/cuid2";
+import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
@@ -70,6 +71,29 @@ export async function POST(req: Request) {
         email: payload.data.email_addresses[0].email_address,
       })
       .returning();
+
+    console.log(data);
+  }
+
+  if (eventType === "user.updated") {
+    const [data] = await db
+      .update(users)
+      .set({
+        imageUrl: payload.data.image_url,
+      })
+      .where(eq(users.clerkId, payload.data.id))
+      .returning();
+
+    console.log(data);
+  }
+
+  if (eventType === "user.deleted") {
+    const [data] = await db
+      .delete(users)
+      .where(eq(users.clerkId, payload.data.id))
+      .returning({
+        id: users.id,
+      });
 
     console.log(data);
   }
